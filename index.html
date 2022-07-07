@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <title>Moire Patter</title>
+</head>
+
+<body>
+    <svg id="container" width="960" height="540" style="background-color: bisque;">
+    </svg>
+</body>
+
+</html>
+
+<script src="./moire.js"></script>
+
+<script>
+
+    const container = document.getElementById('container');
+    const containerWidth = container.getAttribute("width");
+    const containerHeight = container.getAttribute("height");
+
+    //const backgroundCircleSet = GrowingRectangleSet(54, 10);
+    //MoveElement(backgroundCircleSet, containerWidth / 2, containerHeight / 2);
+    //container.appendChild(backgroundCircleSet);
+
+    const backgroundCircleSet = GrowingCircleSet( 350, 4 )
+    MoveElement(backgroundCircleSet, containerWidth/2, containerHeight/2);
+    container.appendChild(backgroundCircleSet);
+
+    const Walls = {
+        up: Rectangle(containerWidth, 1),
+        down: Rectangle(containerWidth, 1),
+        left: Rectangle(1, containerHeight),
+        right: Rectangle(1, containerHeight)
+    }
+
+    container.appendChild(Walls.up);
+    container.appendChild(Walls.left);
+    container.appendChild(Walls.down);
+    container.appendChild(Walls.right);
+    MoveElement(Walls.down, 0, containerHeight - 1);
+    MoveElement(Walls.right, containerWidth - 1, 0);
+
+
+    //const rectSet = GrowingRectangleSet(50, 2);
+    //container.appendChild(rectSet);
+    //MoveElement(rectSet, 50, 50);
+
+    const smallCircleSet = GrowingCircleSet(20, 4)
+    container.appendChild(smallCircleSet);
+    MoveElement(smallCircleSet, 100, 100);
+
+
+    var forceX = GetRandomInt(13);
+    var forceY = GetRandomInt(13);
+
+    var currX = 100;
+    var currY = 100;
+
+
+    var frames = [];
+
+    const interval = setInterval(function () {
+
+        currX = currX + forceX;
+        currY = currY + forceY;
+
+        MoveElement(smallCircleSet, currX, currY);
+
+        if (IntersectRect(smallCircleSet, Walls.right)) {
+            forceX = -1 * forceX;
+        } else if (IntersectRect(smallCircleSet, Walls.down)) {
+            forceY = -1 * forceY;
+        } else if (IntersectRect(smallCircleSet, Walls.up)) {
+            forceY = -1 * forceY;
+        } else if (IntersectRect(smallCircleSet, Walls.left)) {
+            forceX = -1 * forceX;
+        }
+
+        if (frames.length < 1800) {
+            frames.push(container.outerHTML);
+            console.log(frames.length)
+        } else if (!exported) {
+            exportFrames2(frames);
+        }
+
+    }, 50)
+
+
+    var exported = false;
+    function exportFrames(frames) {
+
+        exported = true;
+        for (var i = 0; i < frames.length; i++) {
+            var a = document.createElement("a");
+            a.href = window.URL.createObjectURL(new Blob([frames[i]], { type: "text/plain" }));
+            a.download = `frame-${String(i).padStart(3, '0')}.svg`;
+            a.click();
+        }
+
+    }
+
+    function exportFrames2(frames) {
+
+        exported = true;
+        var a = document.createElement("a");
+        a.href = window.URL.createObjectURL(new Blob([JSON.stringify({ frameData: frames })], { type: "text/plain" }));
+        a.download = `frames.json`;
+        a.click();
+
+    }
+
+
+</script>
