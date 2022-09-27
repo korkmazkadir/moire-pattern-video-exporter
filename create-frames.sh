@@ -14,7 +14,7 @@ frame_index=1
 
 jq -c '.frameData[]' ./movie-frames/frames.json | while read frame; do
    frame=$(echo "$frame" | sed -r 's/^"|"$//g' )
-   echo "pricessing $frame_index"
+   echo "processing $frame_index"
    #echo $frame | rsvg-convert -h 1080 -w 1920 -b "#ffe4c4" > `printf "./movie-frames/frame-%03d.png" $frame_index`
    echo $frame | rsvg-convert -h 540 -w 960 -b "#ffe4c4" > `printf "./movie-frames/frame-%03d.png" $frame_index`
    
