@@ -22,7 +22,7 @@ An experimental moire pattern creator.
     This script will combine png files to create a mp4 movie. The movie is saved under the root folder of the project. You can change the quality of video by editing create-movie.sh file.
 
 
-The project depends on following binaries. You should installe them:
+The project depends on following binaries. You should install them:
 * jq
 * convert
 * ffmpeg
