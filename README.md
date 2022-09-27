@@ -1,5 +1,5 @@
 # moire-pattern-video-exporter
-An eperimental moire pattern creator
+An experimental moire pattern creator.
 
 # How to use it
 
