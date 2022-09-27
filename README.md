@@ -27,3 +27,4 @@ The project depends on following binaries. You should install them:
 * convert
 * ffmpeg
 
+Note: under the ***./examples*** folder, you can find a movie output, and the json file that is used to create the movie.
